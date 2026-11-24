@@ -25,6 +25,13 @@ const terminators = text.match(/[.!?]/g) ?? [];
 if (terminators.length !== 1 || !text.endsWith(".")) {
   throw new Error("Review must be exactly one sentence ending in a period.");
 }
+// A review of Monday must say so, and must carry the one-star verdict.
+if (!/monday/i.test(text)) {
+  throw new Error("Review must name Monday.");
+}
+if (!/one star/i.test(text)) {
+  throw new Error("Review must carry the one-star verdict.");
+}
 
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", text + "\n", "utf8");
